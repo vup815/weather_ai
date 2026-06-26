@@ -7,9 +7,9 @@ OpenAI Function Calling (Tool Use) Hello World — 天氣 Agent。
 整個交互涉及 2 次 HTTP 請求：
 
 ```
-   User                Node.js (index.ts)                  OpenAI API
+   User                Node.js (tool-calling.ts)                  OpenAI API
      │                            │                                │
-     │  tsx index.ts              │                                │
+     │  tsx tool-calling.ts              │                                │
      │───────────────────────────>│                                │
      │                            │                                │
      │                            │    POST/v1/chat/completions    │
@@ -60,5 +60,5 @@ npm install openai dotenv
 npm install -D typescript tsx @types/node
 
 # 在 .env 中設定 OPENAI_API_KEY=
-tsx index.ts
+tsx function-calling.ts
 ```

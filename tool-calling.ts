@@ -6,10 +6,10 @@
  *   npm install -D typescript tsx @types/node
  *
  * Run:
- *   tsx index.ts
+ *   tsx tool-calling.ts
  *
  * Or compile first:
- *   npx tsc index.ts --outDir dist --module nodenext --target es2022
+ *   npx tsc tool-calling.ts --outDir dist --module nodenext --target es2022
  *   node dist/index.js
  */
 
