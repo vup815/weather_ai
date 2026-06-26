@@ -7,28 +7,28 @@ OpenAI Function Calling (Tool Use) Hello World — 天氣 Agent。
 整個交互涉及 2 次 HTTP 請求：
 
 ```
-  你 (User)                 Node.js (index.ts)                  OpenAI API
+   User                Node.js (index.ts)                  OpenAI API
      │                            │                                │
-     │  執行 tsx index.ts          │                                │
+     │  tsx index.ts              │                                │
      │───────────────────────────>│                                │
      │                            │                                │
-     │                            │  ① POST /v1/chat/completions   │
-     │                            │  messages: [user: "新店區天氣"] │
+     │                            │    POST/v1/chat/completions    │
+     │                            │  messages: [user: "新店區天氣"]  │
      │                            │  tools: [getCurrentWeather]    │
      │                            │───────────────────────────────>│
      │                            │                                │ LLM 判斷需要查天氣
      │                            │                                │ 決定回傳 tool_calls
      │                            │                                │
-     │                            │  ② Response: tool_calls        │
+     │                            │    Response: tool_calls        │
      │                            │  { name: "getCurrentWeather",  │
      │                            │    arguments: {"location":"新店區"} }
      │                            │<───────────────────────────────│
      │                            │                                │
-     │                            │  ③ 解析 arguments              │
+     │                            │     解析 arguments              │
      │                            │  執行 getCurrentWeather("新店區")
      │                            │  => { temp: 24, condition: "陰天" }
      │                            │                                │
-     │                            │  ④ POST /v1/chat/completions   │
+     │                            │     POST /v1/chat/completions  │
      │                            │  messages: [                   │
      │                            │    user,                       │
      │                            │    assistant (tool_calls),     │
@@ -37,10 +37,10 @@ OpenAI Function Calling (Tool Use) Hello World — 天氣 Agent。
      │                            │───────────────────────────────>│
      │                            │                                │ LLM 組織自然語言回覆
      │                            │                                │
-     │                            │  ⑤ Response: "陰天24度"        │
+     │                            │     Response: "陰天24度"        │
      │                            │<───────────────────────────────│
      │                            │                                │
-     │  印出最終回答               │                                │
+     │  log final answer          │                                │
      │<───────────────────────────│                                │
 ```
 
