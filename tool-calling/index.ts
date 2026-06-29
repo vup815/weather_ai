@@ -1,61 +1,7 @@
-/**
- * Weather AI Agent - OpenAI Function Calling (Tool Use) Hello World
- *
- * Installation:
- *   npm install openai dotenv
- *   npm install -D typescript tsx @types/node
- *
- * Run:
- *   tsx tool-calling/index.ts
- *
- * Or compile first:
- *   npx tsc tool-calling/index.ts --outDir dist --module nodenext --target es2022
- *   node dist/index.js
- */
-
 import OpenAI from "openai";
 import "dotenv/config";
-
-// --- Types ---
-
-interface WeatherData {
-  temp: number;
-  condition: string;
-}
-
-// --- Mock Weather Function ---
-
-async function getCurrentWeather(location: string): Promise<WeatherData> {
-  const conditions = ["晴天", "多雲", "陰天", "小雨", "大雨", "颱風"];
-  return {
-    temp: Math.floor(Math.random() * 30) + 10,
-    condition: conditions[Math.floor(Math.random() * conditions.length)],
-  };
-}
-
-// --- Tool Schema ---
-
-const weatherTool: OpenAI.Chat.Completions.ChatCompletionTool = {
-  type: "function",
-  function: {
-    name: "getCurrentWeather",
-    description: "取得指定地點的目前天氣資訊",
-    parameters: {
-      type: "object",
-      properties: {
-        location: {
-          type: "string",
-          description: "地點名稱，例如：新店區、台北市、東京",
-        },
-      },
-      required: ["location"],
-      additionalProperties: false,
-    },
-    strict: true,
-  },
-};
-
-// --- Main ---
+import { getCurrentWeather } from "./weather";
+import { weatherTool } from "./tools";
 
 async function main() {
   const client = new OpenAI();
