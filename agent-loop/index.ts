@@ -12,7 +12,7 @@ async function main() {
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
     {
       role: "system",
-      content: "你不知道使用者的行程地點。務必先呼叫 getCalendarEvents 確認下午行程與地點，再根據地點呼叫 getWeather 查天氣。",
+      content: "你不知道使用者的行程和天氣資訊，請使用可用的工具來取得所需資料。",
     },
     { role: "user", content: `我明天（${dateStr}）下午出門需要帶傘嗎？` },
   ];
