@@ -6,7 +6,8 @@
 |---|---|
 | `loop.ts` / `index.ts` | 基本 ReAct 迴圈 — LLM 決定何時 call tool、何時回答 |
 | `evaluator-optimizer.ts` / `evaluator-index.ts` | Evaluator-Optimizer 模式 — ReAct 產出草稿後，由獨立評審 LLM 檢查品質，需要時修正 |
-| `orchestrator-worker.ts` / `orchestrator-index.ts` | Orchestrator-Worker 模式 — 中央 LLM 動態拆解任務、委派給 worker、合成結果 |
+| `orchestrator-worker.ts` / `orchestrator-index.ts` | Orchestrator-Worker 模式 (手寫版本) — 中央 LLM 動態拆解任務、委派給 worker、合成結果 |
+| `langgraph-orchestrator.ts` / `langgraph-index.ts` | Orchestrator-Worker 模式 (LangGraph 版本) — 使用 StateGraph 做狀態管理與條件路由 |
 
 ## 基本 ReAct 流程
 
@@ -83,6 +84,9 @@ tsx agent-loop/index.ts
 # Evaluator-Optimizer
 tsx agent-loop/evaluator-index.ts
 
-# Orchestrator-Worker
+# Orchestrator-Worker (手寫版本)
 tsx agent-loop/orchestrator-index.ts
+
+# Orchestrator-Worker (LangGraph 版本)
+tsx agent-loop/langgraph-index.ts
 ```
