@@ -15,10 +15,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 
 function main() {
-  const server = new McpServer(
-    { name: "weather-server", version: "1.0.0" },
-    { capabilities: { tools: {} } },
-  );
+  const server = new McpServer({ name: "weather-server", version: "1.0.0" }, { capabilities: { tools: {} } });
 
   server.registerTool(
     "get_weather",

@@ -12,7 +12,10 @@ export async function embed(client: OpenAI, texts: string[]): Promise<number[][]
   return response.data.map((item) => item.embedding);
 }
 
-export async function loadOrCreateStore(client: OpenAI, filePath: string): Promise<{ text: string; embedding: number[] }[]> {
+export async function loadOrCreateStore(
+  client: OpenAI,
+  filePath: string,
+): Promise<{ text: string; embedding: number[] }[]> {
   if (fs.existsSync(CACHE_FILE)) {
     const cached = JSON.parse(fs.readFileSync(CACHE_FILE, "utf-8")) as { chunks: string[]; embeddings: number[][] };
     console.log(`→ 從快取載入 ${cached.chunks.length} 筆向量`);
