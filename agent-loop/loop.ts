@@ -1,7 +1,11 @@
 import OpenAI from "openai";
 import { handlers, toolSchemas } from "./tools";
 
-export async function runAgentLoop(client: OpenAI, messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[], maxIterations = 5): Promise<void> {
+export async function runAgentLoop(
+  client: OpenAI,
+  messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
+  maxIterations = 5,
+): Promise<void> {
   for (let i = 0; i < maxIterations; i++) {
     console.log(`\n=== 第 ${i + 1} 次思考 ===`);
 
@@ -20,7 +24,9 @@ export async function runAgentLoop(client: OpenAI, messages: OpenAI.Chat.Complet
 
     console.log("─ LLM Response ─");
     console.log(`  finish_reason: ${response.choices[0].finish_reason}`);
-    console.log(`  tokens: ${usage?.total_tokens} (prompt ${usage?.prompt_tokens} + completion ${usage?.completion_tokens})`);
+    console.log(
+      `  tokens: ${usage?.total_tokens} (prompt ${usage?.prompt_tokens} + completion ${usage?.completion_tokens})`,
+    );
     if (response.model !== "gpt-4o-mini") console.log(`  actual_model: ${response.model}`);
 
     messages.push(message);
