@@ -6,6 +6,7 @@
 |---|---|
 | `loop.ts` / `index.ts` | 基本 ReAct 迴圈 — LLM 決定何時 call tool、何時回答 |
 | `evaluator-optimizer.ts` / `evaluator-index.ts` | Evaluator-Optimizer 模式 — ReAct 產出草稿後，由獨立評審 LLM 檢查品質，需要時修正 |
+| `orchestrator-worker.ts` / `orchestrator-index.ts` | Orchestrator-Worker 模式 — 中央 LLM 動態拆解任務、委派給 worker、合成結果 |
 
 ## 基本 ReAct 流程
 
@@ -49,6 +50,30 @@ sequenceDiagram
     end
 ```
 
+## Orchestrator-Worker 流程
+
+```mermaid
+sequenceDiagram
+    participant Planner as Planner (LLM)
+    participant W1 as Worker: getWeather
+    participant W2 as Worker: getCalendarEvents
+    participant W3 as Worker: checkSafety
+    participant Synth as Synthesizer (LLM)
+
+    Planner->>Planner: Phase 1: Plan<br/>拆解問題 → 子任務陣列
+    Note over Planner: 1. getWeather(location, date)<br/>2. getCalendarEvents(date)<br/>3. checkSafety(condition: $1, location)
+    par Parallel
+        Planner->>W1: Phase 2: Execute 子任務 1
+        Planner->>W2: 執行子任務 2
+    end
+    W1-->>Planner: 降雨機率 80%，午後雷陣雨
+    W2-->>Planner: 下午 2 點台北 101 會議
+    Planner->>W3: 執行子任務 3 (依賴 1 → 注入 "$1")
+    W3-->>Planner: ⚠️ 注意安全：有雷雨
+    Planner->>Synth: Phase 3: Synthesize<br/>全部結果 → 最終回答
+    Synth-->>Planner: 綜合建議
+```
+
 ## 執行
 
 ```bash
@@ -57,4 +82,7 @@ tsx agent-loop/index.ts
 
 # Evaluator-Optimizer
 tsx agent-loop/evaluator-index.ts
+
+# Orchestrator-Worker
+tsx agent-loop/orchestrator-index.ts
 ```
